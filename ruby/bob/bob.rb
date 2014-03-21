@@ -1,22 +1,20 @@
 class Bob
   def hey(msg)
-    return 'Fine. Be that way!' if msg.slience?
-    return 'Woah, chill out!' if msg.yelling?
-    return 'Sure.' if msg.questioning?
+    return 'Fine. Be that way!' if slience?(msg)
+    return 'Woah, chill out!' if yelling?(msg)
+    return 'Sure.' if questioning?(msg)
     'Whatever.'
   end
-end
 
-class String
-  def slience?
-    self.strip.empty?
+  def slience?(msg)
+    msg.strip.empty?
   end
 
-  def yelling?
-    self.upcase == self && self.downcase != self
+  def yelling?(msg)
+    msg.upcase == msg && msg.downcase != msg
   end
 
-  def questioning?
-    self =~ /\?\z/
+  def questioning?(msg)
+    msg.end_with?('?')
   end
 end
