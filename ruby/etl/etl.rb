@@ -1,11 +1,7 @@
 class ETL
   def self.transform(v1)
-    v2 = Hash.new { |h,k| h[k] = {} }
-    v1.each do |points,letters|
-      letters.each do |letter|
-        v2[letter.downcase] = points
-      end
+    v1.each_with_object({}) do |(points, letters), v2|
+      letters.each { |letter| v2[letter.downcase] = points }
     end
-    v2
   end
 end
