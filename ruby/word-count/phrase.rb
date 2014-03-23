@@ -2,10 +2,13 @@ class Phrase
   attr_accessor :word_count
 
   def initialize(phrase)
-    words = phrase.downcase.scan(/[\w\']+/)
-    counts = Hash.new { |h,k| h[k] = 0 }
-    words.each { |word| counts[word] += 1 }
-    @word_count = counts
+    @word_count = count_words(phrase)
   end
 
+  def count_words(phrase)
+    words = phrase.downcase.scan(/[\w\']+/)
+    words.each_with_object(Hash.new 0) do |word, count|
+      count[word] += 1
+    end
+  end
 end
