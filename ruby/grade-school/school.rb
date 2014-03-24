@@ -1,6 +1,6 @@
 class School
   def initialize
-    @school = Hash.new { |h,k| h[k] = [] }
+    @school = Hash.new { |school,grade| school[grade] = [] }
   end
 
   def add(name, grade)
@@ -13,10 +13,6 @@ class School
   end
 
   def to_hash
-    hash = {}
-    @school.keys.sort.each do |k|
-      hash[k] = @school[k]
-    end
-    hash
+    Hash[@school.sort]
   end
 end
