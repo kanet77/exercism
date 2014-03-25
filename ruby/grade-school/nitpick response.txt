@@ -1,0 +1,37 @@
+Thanks for the feedback! If you aren't very experienced in reading Ruby code, I'd say your opinion on readability counts more than that of a Ruby guru.
+
+I'm not fluent in Ruby yet. I'm aiming for the sweet spot of "succinct and expressive" without being either too cryptic or too verbose.
+
+This response got a bit long. My apologies. After I started typing I realized I learned a lot from this exercise and your comment about ```to_hash``` forced me to face my assumptions that informed my design.
+
+### One-line version of add
+
+I've seen others on exercism.io write ```add``` in one line like so:
+
+```
+def add(name, grade)
+  @school[grade].push(name).sort!
+end
+```
+
+I think that's legitimate but I decided against it because I actually want to call out the two operations. I'm on the fence about this and I'm curious how my tastes will develop in the coming weeks and months.
+
+Would you have ```add```'s only responsibility be to call ```add_name_and_sort_grade``` or something like it? I'm curious.. what would you name this method?
+
+### Succinct to_hash method
+
+I just learned about that trick yesterday. Check out my [revision 1](http://exercism.io/submissions/157b46f14c946f55463ae4a5) for the wordy monstrosity I started with. I suspected there was a shorter way, but I didn't find it until I nitpicked some others' solutions. In fact, I had to do some research to understand what's happening here.
+
+The short story is that ```sort``` outputs a 2-d array which is in a format that can be used to populate a new Hash (See [Hash::[]](http://www.ruby-doc.org/core-2.1.1/Hash.html#method-c-5B-5D)). I'm also glad I discovered the ```sort_by``` method, which can be used to sort by value (or even a field within the value) rather than by key. (See more info on [sort and sort_by](http://www.rubyinside.com/how-to/ruby-sort-hash))
+
+### Performance of to_hash
+
+I thought about your suggestion to store the grades in sorted order (in the same way that student names in each grade are always sorted). I see what you're going for, but I'm skeptical that it will perform the way you want. This is just a guess on my part and of course the size of your dataset and the type and frequency of operations will be determining factors.
+
+I designed my ```add``` method with the assumptions that 1) the ```School``` data structure will be read from more often than it's written to, and 2) that sorting a "classroom-sized" 1-d array is fairly cheap. Given these assumptions, it makes sense to sort the array of student names each time a new one is added.
+
+Further, it makes sense to sort when adding a student because the sort happens only once for each additional student. If instead I sort when fetching the list of students I will either 1) incur the cost of a sort for every fetch (even if nothing has changed), or 2) require additional logic to track if each grade is sorted or not (kind of like cache invalidation). Sorting when reading is even more complicated because a grade is read in ```grade``` as well as ```to_hash```.
+
+So why did I choose a different approach for ```to_hash```? Why not keep the hash always sorted? For one thing, I didn't think it was possible. (Bad assumption!) Today I learned that somewhere between [1.8.7](http://www.ruby-doc.org/core-1.8.7/Hash.html) and [1.9.1](http://www.ruby-doc.org/core-1.9.1/Hash.html), there was a change that "Hashes enumerate their values in the order that the corresponding keys were inserted."
+
+Despite this, I still don't think it's a good idea to sort the entire data structure every time a student is added. And when I say "sort the entire data structure" I mean "create an entirely new, sorted copy of the school and throw away the old one". I'm assuming grades are added more frequently than the entire school is fetched. Also, the need to optimize the sort in ```to_hash``` is lessened somewhat because part of the sorting is off-loaded on the ```add``` method.
