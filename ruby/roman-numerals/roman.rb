@@ -27,13 +27,13 @@ private
     power_of_ten = 10 ** exponent
     factor = digit.to_i
     case factor
-    when 0      then ''
-    when 1..3   then ROMAN[power_of_ten] * factor
-    when 4      then ROMAN[power_of_ten] + ROMAN[power_of_ten * 5]
-    when 5      then ROMAN[power_of_ten * 5]
-    when 6..8   then ROMAN[power_of_ten * 5] + ( ROMAN[power_of_ten] * (factor - 5) )
-    when 9      then ROMAN[power_of_ten] + ROMAN[power_of_ten * 10]
-    else        raise "Nonsense! Factor is #{factor}. Should be in (0..9)."
+      when 0      then ''
+      when 1..3   then ROMAN[power_of_ten] * factor
+      when 4      then ROMAN[power_of_ten] + ROMAN[power_of_ten * 5]
+      when 5      then ROMAN[power_of_ten * 5]
+      when 6..8   then ROMAN[power_of_ten * 5] + ( ROMAN[power_of_ten] * (factor - 5) )
+      when 9      then ROMAN[power_of_ten] + ROMAN[power_of_ten * 10]
+      else        raise "Nonsense! Factor is #{factor}. Should be in (0..9)."
     end
   end
 end
