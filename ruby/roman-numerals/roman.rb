@@ -1,5 +1,19 @@
 class Integer
-  ROMAN_NUMERALS = {
+  def to_roman
+    digits_with_exp.each_with_object('') do |(digit,exponent),result|
+      result << Integer::digit_to_roman(digit,exponent)
+    end
+  end
+
+private
+
+  def digits_with_exp
+    digits = self.to_s
+    positions = (digits.length - 1).downto(0)
+    digits.chars.zip(positions)
+  end
+
+  ROMAN = {
     1000 => 'M',
     500 => 'D',
     100 => 'C',
@@ -9,42 +23,17 @@ class Integer
     1 => 'I'  
   }
 
-  def to_roman
-    digits = self.to_s.chars.to_i
-    digits_with_exp = digits.reverse.each_with_index.to_h.sort_by { |k,v| v }.reverse!
-    digits_with_exp = digits.reverse.each_with_index { |d,i| i,d }.reverse!
-    roman = digits.map(multiple_of)
-    # decimal = self
-    # power_of_ten = ROMAN_NUMERALS.first
-    # result = ''
-    # while (decimal >= 1) do
-    #   factor = decimal/power_of_ten
-    #   result << Integer::multiple_of(factor, power_of_ten)
-    #   decimal -= (factor * power_of_ten)
-    #   power_of_ten /= 10
-    # end
-    # result
-  end
-
-private
-
-  def self.multiple_of(factor, exponent)
+  def self.digit_to_roman(digit, exponent)
     power_of_ten = 10 ** exponent
-    case factor.to_i
-    when 0
-      ''
-    when 1..3
-      ROMAN_NUMERALS[power_of_ten] * factor
-    when 4
-      ROMAN_NUMERALS[power_of_ten] + ROMAN_NUMERALS[power_of_ten * 5]
-    when 5
-      ROMAN_NUMERALS[power_of_ten * 5]
-    when 6..8
-      ROMAN_NUMERALS[power_of_ten * 5] + ( ROMAN_NUMERALS[power_of_ten] * (factor - 5) )
-    when 9
-      ROMAN_NUMERALS[power_of_ten] + ROMAN_NUMERALS[power_of_ten * 10]
-    else
-      raise "Nonsense! Factor is #{factor}. Should be in (0..9)."
+    factor = digit.to_i
+    case factor
+      when 0      then ''
+      when 1..3   then ROMAN[power_of_ten] * factor
+      when 4      then ROMAN[power_of_ten] + ROMAN[power_of_ten * 5]
+      when 5      then ROMAN[power_of_ten * 5]
+      when 6..8   then ROMAN[power_of_ten * 5] + ( ROMAN[power_of_ten] * (factor - 5) )
+      when 9      then ROMAN[power_of_ten] + ROMAN[power_of_ten * 10]
+      else        raise "Nonsense! Factor is #{factor}. Should be in (0..9)."
     end
   end
 end
