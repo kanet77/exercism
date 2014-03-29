@@ -1,8 +1,8 @@
 class Triangle
   attr_reader :kind
 
-  def initialize(a,b,c)
-    @a, @b, @c = [a, b, c].sort
+  def initialize(*sides)
+    @sides = sides.sort
     raise TriangleError if error?
     @kind = find_kind
   end
@@ -10,14 +10,16 @@ class Triangle
 private
 
   def find_kind
-    return :equilateral if @a == @b && @b == @c
-    return :scalene     if @a != @b && @b != @c
-    :isosceles
+    case @sides.uniq.count
+    when 1 then :equilateral
+    when 2 then :isosceles
+    when 3 then :scalene
+    end
   end
 
   def error?
-    return true if @a <= 0 || @b <= 0 || @c <= 0
-    return true if (@a + @b) <= @c
+    return true if @sides.any? { |s| s <= 0 }
+    return true if @sides[0] + @sides[1] <= @sides[2]
     false
   end
 end
