@@ -1,8 +1,8 @@
-Thanks for the feedback! If you aren't very experienced in reading Ruby code, I'd say your opinion on readability counts more than that of a Ruby guru.
+Thanks for the feedback! If you aren't very experienced at reading Ruby code, I'd say your opinion on readability counts more than that of a Ruby guru.
 
 I'm not fluent in Ruby yet. I'm aiming for the sweet spot of "succinct and expressive" without being either too cryptic or too verbose.
 
-This response got a bit long. My apologies. After I started typing I realized I learned a lot from this exercise and your comment about ```to_hash``` forced me to face my assumptions that informed my design.
+This response got a bit long. My apologies. After I started typing I realized I learned a lot from this exercise that I think is worth sharing. Your comment about ```to_hash``` forced me to face my assumptions that informed my design.
 
 ### One-line version of add
 
@@ -14,15 +14,15 @@ def add(name, grade)
 end
 ```
 
-I think that's legitimate but I decided against it because I actually want to call out the two operations. I'm on the fence about this and I'm curious how my tastes will develop in the coming weeks and months.
+I think that's legitimate but I decided against it because I actually want to make it clear there are two operations. I'm on the fence about this and I wonder how my tastes will develop in the coming weeks and months.
 
 Would you have ```add```'s only responsibility be to call ```add_name_and_sort_grade``` or something like it? I'm curious.. what would you name this method?
 
 ### Succinct to_hash method
 
-I just learned about that trick yesterday. Check out my [revision 1](http://exercism.io/submissions/157b46f14c946f55463ae4a5) for the wordy monstrosity I started with. I suspected there was a shorter way, but I didn't find it until I nitpicked some others' solutions. In fact, I had to do some research to understand what's happening here.
+I just learned about that trick a couple days ago. (Sadly, I can't find the code that I commented on.) Check out my [revision 1](http://exercism.io/submissions/157b46f14c946f55463ae4a5) for the wordy monstrosity I started with. I suspected there was a shorter way, but I didn't find it until I nitpicked some others' solutions. In fact, I had to do some research to understand what's happening here.
 
-The short story is that ```sort``` outputs a 2-d array which is in a format that can be used to populate a new Hash (See [Hash::[]](http://www.ruby-doc.org/core-2.1.1/Hash.html#method-c-5B-5D)). I'm also glad I discovered the ```sort_by``` method, which can be used to sort by value (or even a field within the value) rather than by key. (See more info on [sort and sort_by](http://www.rubyinside.com/how-to/ruby-sort-hash))
+The short story is that ```sort``` outputs a 2-d array which is in a format that can be used to populate a new Hash (See [Hash::[]](http://www.ruby-doc.org/core-2.1.1/Hash.html#method-c-5B-5D)). I'm also glad I discovered the ```sort_by``` method, which can be used to sort by the value (or even a field within the value) rather than by key. (See more info on [sort and sort_by](http://www.rubyinside.com/how-to/ruby-sort-hash))
 
 ### Performance of to_hash
 
