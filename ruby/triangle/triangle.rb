@@ -14,6 +14,7 @@ private
     when 1 then :equilateral
     when 2 then :isosceles
     when 3 then :scalene
+    else raise TriangleError
     end
   end
 
