@@ -1,6 +1,9 @@
 class Robot
   attr_reader :name
 
+  ALPHABET_START  = 'A'.ord
+  ALPHABET_LENGTH = 26
+
   @@r = Random.new
 
   def initialize
@@ -8,14 +11,14 @@ class Robot
   end
 
   def reset
-    c1 = random_uppercase_char
-    c2 = random_uppercase_char
-    n = random_3_digit_number
+    c1    = random_uppercase_char
+    c2    = random_uppercase_char
+    n     = random_3_digit_number
     @name = "#{c1}#{c2}#{n}"
   end
 
   def random_uppercase_char
-    (@@r.rand(26) + 65).ord
+    (ALPHABET_START + @@r.rand(ALPHABET_LENGTH)).chr
   end
 
   def random_3_digit_number
